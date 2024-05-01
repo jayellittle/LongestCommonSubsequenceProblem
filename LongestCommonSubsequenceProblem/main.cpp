@@ -13,22 +13,22 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     string S, T;
+    
     S = "axis";
     T = "matrix";
     
-    size_t m, n;
-    m = S.size();
-    n = T.size();
+    vector<vector<int>> y(S.size()+1, vector<int>(T.size()+1));
     
     int i, j;
-    vector<vector<int>> y;
-    for (i=0; i<m; i++) y[i][0] = 1;
-    for (j=0; j<n; j++) y[0][j] = 1;
+    for (i=0; i<=S.size(); i++) y[i][0] = 0;
+    for (j=0; j<=T.size(); j++) y[0][j] = 0;
     
-    for (i=1; i<m; i++) {
-        for (j=1; j<n; j++) {
-            if (S[i] == T[j]) y[i][j] = y[i-1][j-1] + 1;
-            else 
+    for (i=1; i<=S.size(); i++) {
+        for (j=1; j<=T.size(); j++) {
+            if (S[i-1] == T[j-1]) y[i][j] = y[i-1][j-1] + 1;
+            else y[i][j] = max(y[i-1][j], y[i][j-1]);
         }
     }
+    
+    cout << y[S.size()][T.size()] << endl;
 }
